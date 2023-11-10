@@ -1,9 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-/*import FormLogin from "./Pages/login";
-import FormRegister from "./Pages/registre";
-import LinesChart from "./Components/Graflineal";
-import Inicio from "./Pages/Graficas";
-import Dashboard from "./Pages/Dash";*/
 import Login from "./pages/Login";
 import Register from "./pages/Register"
 
