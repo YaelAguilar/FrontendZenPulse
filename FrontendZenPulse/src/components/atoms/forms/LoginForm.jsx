@@ -36,7 +36,7 @@ function LoginForm() {
       }
 
       // Show a success alert and navigate to the dashboard
-      alert('Session started successfully');
+      //alert('Session started successfully');
       navigate("/dashboard");
     } catch (error) {
       // Log an error if there's a problem with the fetch operation
