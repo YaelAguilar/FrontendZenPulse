@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register"
+import PanelDashboard from "./pages/PanelDashboard";
 
 function App() {
 
@@ -12,6 +13,9 @@ function App() {
 
         {/* Route for the registration page */}
         <Route path="register" element={<Register />} />
+
+        {/* Route for see the principal view */}
+        <Route path="dashboard" element={<PanelDashboard />} />
       </Routes>
     </BrowserRouter>
   );
