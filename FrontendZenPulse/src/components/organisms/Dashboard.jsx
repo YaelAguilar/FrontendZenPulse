@@ -29,7 +29,7 @@ justify-center px-[30px] cursor-pointer">Generate reporte</button>
     flex items-center justify-center px-[5px] cursor-pointer hover:shadow-lg transform hover:scale-[103%]
     transition duration-300 ease-out">
         <div>
-        <h2 className="text-[#000000] text-[20px] leading-[10px] font-medium mb-[170px] ml-[20px]">Actividad</h2>
+        <h2 className="text-[#000000] text-[20px] leading-[10px] font-medium mb-[170px] ml-[20px]">Actividad F.</h2>
         </div>
     <div className="flex items-center justify-center">
       <div className="w-44 flex items-start justify-start p-2 ml-[-130px] "><PhysicalActivityGraph/></div>
@@ -39,7 +39,7 @@ justify-center px-[30px] cursor-pointer">Generate reporte</button>
     flex items-center justify-center px-[5px] cursor-pointer hover:shadow-lg transform hover:scale-[103%]
     transition duration-300 ease-out">
         <div>
-        <h2 className="text-[#000000] text-[20px] leading-[10px] font-medium mb-[170px] ml-[20px]">Frecuencia</h2>
+        <h2 className="text-[#000000] text-[20px] leading-[10px] font-medium mb-[170px] ml-[20px]">BPM</h2>
         </div>
     <div className="flex items-center justify-center">
       <div className="w-44 flex items-start justify-start p-2 ml-[-130px] "><BPMGraph/></div>
@@ -49,7 +49,7 @@ justify-center px-[30px] cursor-pointer">Generate reporte</button>
     flex items-center justify-center px-[5px] cursor-pointer hover:shadow-lg transform hover:scale-[103%]
     transition duration-300 ease-out">
         <div>
-        <h2 className="text-[#000000] text-[20px] leading-[10px] font-medium mb-[170px] ml-[20px]">Oxigeno</h2>
+        <h2 className="text-[#000000] text-[20px] leading-[10px] font-medium mb-[170px] ml-[20px]">Oxígeno</h2>
         </div>
     <div className="flex items-center justify-center">
       <div className="w-44 flex items-start justify-start p-2 ml-[-130px] "><OxygenationGraph/></div>
