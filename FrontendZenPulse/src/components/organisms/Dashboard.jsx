@@ -5,7 +5,7 @@ import BPMGraph from "../atoms/cakeGraphis/BPMGraph"
 import LinesChart from "../atoms/LinealGraph";
 import DemoArea from "../atoms/Circle";
 import {GiLevelEndFlag} from "react-icons/gi";
-function Main (){
+function Dashboard (){
 
     return(
 <div className=" bg-[#F8F9FC]">
@@ -87,4 +87,4 @@ border-[#EDEDED]">
 
     )
 }
-export default Main;
+export default Dashboard;
