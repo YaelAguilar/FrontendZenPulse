@@ -35,7 +35,7 @@ function RegisterForm() {
 
             // Show user registered message and navigate to "/dash"
             alert('User registered successfully');
-            navigate("/dash");
+            navigate("/dashboard");
         } catch (error) {
             // Handle fetch operation errors
             console.error('There has been a problem with your fetch operation:', error);
