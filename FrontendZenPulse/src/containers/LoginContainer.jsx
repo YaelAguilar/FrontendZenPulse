@@ -1,4 +1,4 @@
-import LoginForm from "../components/atoms/LoginForm";
+import LoginForm from "../components/atoms/forms/LoginForm";
 
 function LoginContainer() {
   return (

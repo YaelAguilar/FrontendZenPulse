@@ -1,4 +1,4 @@
-import RegisterForm from "../components/atoms/RegisterForm"
+import RegisterForm from "../components/atoms/forms/RegisterForm"
 
 function RegisterContainer() {
   return (
