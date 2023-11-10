@@ -3,7 +3,7 @@ import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 
 const COLORS = ['#FF8700', '#F5F9F6'];
 
-class Actividad extends Component {
+class PhysicalActivityGraph extends Component {
   constructor() {
     super();
     this.state = {
@@ -67,4 +67,4 @@ class Actividad extends Component {
   }
 }
 
-export default Actividad ;
+export default PhysicalActivityGraph;
