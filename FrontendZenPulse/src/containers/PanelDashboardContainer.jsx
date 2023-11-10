@@ -5,22 +5,16 @@ import Dashboard from "../components/organisms/Dashboard";
 function PanelDashboardContainer (){
 return(
 <div className="flex">
-<div>
-<Navbar/>
+    <div>
+        <Navbar/>
+    </div>
+    <div className='basis-[100%]'>
+        <Board/>
+        <div>
+            <Dashboard/>
+        </div>
+    </div>
 </div>
-<div className='basis-[100%]'>
-<Board/>
-<div>
-<Dashboard/>
-</div>
-</div>
-
-
-</div>
-
-
-);
-
-
+    );
 }
 export default PanelDashboardContainer;
