@@ -1,70 +1,64 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from 'recharts';
+import io from 'socket.io-client';
 
 const COLORS = ['#FF0826', '#FFFFFF'];
 
-class BPMGraph extends Component {
-  constructor() {
-    super();
-    this.state = {
-      percent: 25,
-      data: this.getData(25),
+const BPMGraph = () => {
+  const [percent, setPercent] = useState(0);
+
+  // Conectar al servidor de Socket.IO
+  const socket = io('http://localhost:3001', {
+    transports: ['websocket'],
+    withCredentials: true,
+  });
+
+  useEffect(() => {
+    // Escuchar eventos 'data' para actualizaciones en tiempo real
+    const handleData = (socketData) => {
+      if (socketData.exchange === 'Sensor_Pulse') {
+        const newPercent = parseFloat(socketData.data);
+        if (!isNaN(newPercent)) {
+          setPercent(newPercent);
+        }
+      }
     };
-  }
 
-  componentDidMount() {
-    this.updateInterval = setInterval(this.updateTemperature, 2000);
-  }
+    socket.on('data', handleData);
 
-  componentWillUnmount() {
-    clearInterval(this.updateInterval);
-  }
+    // Limpieza: desconectar el evento 'data' cuando el componente se desmonta
+    return () => {
+      socket.off('data', handleData);
+      socket.disconnect();
+    };
+  }, [socket]);
 
-  updateTemperature = () => {
-    let newPercent = this.state.percent + Math.random() * 25;
-    if (newPercent > 105) {
-      newPercent = 0; // Reinicia a 0 si supera 100
-    }
-    this.setState({ percent: newPercent, data: this.getData(newPercent) });
-  };
+  const data = [{ name: 'Actividad', value: percent }, { name: '', value: 100 - percent }];
 
-  getData(percent) {
-    return [{ name: 'Actividad', value: percent }, { name: '', value: 100 - percent }];
-  }
-
-  render() {
-    return (
-      <div style={{ width: '100%', height: 200 }}>
-    
-        <ResponsiveContainer>
-          <PieChart>
-            <Pie
-              dataKey="value"
-              data={this.state.data}
-              innerRadius={40}
-              outerRadius={60}
-              fill="#084DFF"
-            >
-              {this.state.data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <text
-              x="50%"
-              y="50%"
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fontSize="30"
-              fill="#000"
-            >
-              {Math.round(this.state.percent)}°
-            </text>
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-    );
-  }
-}
+  return (
+    <div style={{ width: '100%', height: 200 }}>
+      <ResponsiveContainer>
+        <PieChart>
+          <Pie dataKey="value" data={data} innerRadius={40} outerRadius={60} fill="#084DFF">
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="30"
+            fill="#000"
+          >
+            {Math.round(percent)}°
+          </text>
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
 export default BPMGraph;

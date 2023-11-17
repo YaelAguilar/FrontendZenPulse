@@ -1,21 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Register from "./pages/Register"
+import Register from "./pages/Register";
 import PanelDashboard from "./pages/PanelDashboard";
+import Sensor from "./pages/Sensor";
 
 function App() {
-
-  return (  
+  return (
     <BrowserRouter>
       <Routes>
-        {/* Route for the login page */}
         <Route path="/" element={<Login />} />
-
-        {/* Route for the registration page */}
         <Route path="register" element={<Register />} />
-
-        {/* Route for see the principal view */}
         <Route path="dashboard" element={<PanelDashboard />} />
+        <Route path="sensor" element={<Sensor />} />
       </Routes>
     </BrowserRouter>
   );
