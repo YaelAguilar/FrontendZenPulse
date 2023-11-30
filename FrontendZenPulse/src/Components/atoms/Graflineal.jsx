@@ -5,7 +5,7 @@ const Graflineal = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3001/Pulse_irt');
+    const ws = new WebSocket('ws://192.168.252.191:3001/Pulse_irt');
 
     ws.onmessage = (event) => {
       const newValue = parseInt(event.data);
