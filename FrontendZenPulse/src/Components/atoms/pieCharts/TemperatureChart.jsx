@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 
-const ws = new WebSocket('ws://192.168.252.191:3001/MLX90614');
+const ws = new WebSocket('ws://localhost:3001/MLX90614');
 
 const ROOT_PATH = 'https://echarts.apache.org/examples';
 const animationDuration = 1000;
@@ -13,9 +13,9 @@ const innerRadius = 40;
 const pointerInnerRadius = 100;
 const insidePanelRadius = 50;
 
-function TemperatureChart() { 
+function TemperatureChart() {
   const chartRef = useRef(null);
-  const [temperature, setTemperature] = useState(0); 
+  const [temperature, setTemperature] = useState(0);
 
   useEffect(() => {
     const chartDom = chartRef.current;
@@ -42,8 +42,15 @@ function TemperatureChart() {
     }
 
     ws.onmessage = (event) => {
-      const newTemperature = parseFloat(event.data); 
-      updateChart(newTemperature);
+      const data = JSON.parse(event.data);
+    
+      // Asegúrate de que MLX90614 existe en el objeto antes de intentar acceder a su valor
+      if ('MLX90614' in data) {
+        const newTemperature = parseFloat(data.MLX90614);
+        updateChart(newTemperature);
+      } else {
+        console.error('Received invalid Temperature value:', data);
+      }
     };
 
     function renderItem(params, api) {
@@ -110,7 +117,7 @@ function TemperatureChart() {
               shadowBlur: 25,
               shadowOffsetX: 0,
               shadowOffsetY: 0,
-              shadowColor: 'rgba(0, 27, 255, 1)' 
+              shadowColor: 'rgba(0, 27, 255, 1)'
             }
           },
           {
@@ -122,7 +129,7 @@ function TemperatureChart() {
             },
             style: {
               text: makeText(valOnRadian),
-              fontSize: 25, 
+              fontSize: 25,
               fontWeight: 700,
               x: params.coordSys.cx,
               y: params.coordSys.cy,
@@ -178,7 +185,7 @@ function TemperatureChart() {
       if (valOnRadian < -10) {
         alert('illegal during val: ' + valOnRadian);
       }
-      return Math.round(valOnRadian).toString(); 
+      return Math.round(valOnRadian).toString();
     }
 
     const option = {

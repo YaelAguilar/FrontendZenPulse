@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 
-const ws = new WebSocket('ws://192.168.252.191:3001/ADXL345');
+const ws = new WebSocket('ws://localhost:3001/ADXL345');
 
 const ROOT_PATH = 'https://echarts.apache.org/examples';
 const animationDuration = 1000;
@@ -49,11 +49,12 @@ function ActivityChart() {
       } else if (level === 'high') {
         return 200;
       }
-      return 0; 
+      return 0;
     }
 
     ws.onmessage = (event) => {
-      const newActivityLevel = event.data.trim().toLowerCase();
+      const data = JSON.parse(event.data);
+      const newActivityLevel = data.ADXL345.trim().toLowerCase();
       updateChart(newActivityLevel);
     };
 

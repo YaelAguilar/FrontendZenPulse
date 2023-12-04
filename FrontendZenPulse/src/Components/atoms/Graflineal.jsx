@@ -5,11 +5,25 @@ const Graflineal = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://192.168.252.191:3001/Pulse_irt');
+    const ws = new WebSocket('ws://localhost:3001/Pulse_irt');
 
     ws.onmessage = (event) => {
-      const newValue = parseInt(event.data);
-      setData((prevData) => [...prevData, { x: new Date().getTime(), y: newValue }]);
+      const receivedValue = event.data.trim();
+      console.log('Valor recibido:', receivedValue);
+
+      try {
+        const dataObject = JSON.parse(receivedValue);
+
+        // Asumo que solo estamos interesados en Pulse_irt
+        const newValue = parseInt(dataObject.Pulse_irt);
+        if (!isNaN(newValue)) {
+          setData((prevData) => [...prevData, { x: new Date().getTime(), y: newValue }]);
+        } else {
+          console.error('Error al convertir a número:', receivedValue);
+        }
+      } catch (error) {
+        console.error('Error al analizar JSON:', error);
+      }
     };
 
     return () => {
@@ -41,14 +55,14 @@ const Graflineal = () => {
     stroke: {
       curve: 'smooth',
       width: 3,
-      colors: ['#b39ddb'], // Cambiado a morado claro
+      colors: ['#b39ddb'],
       fill: {
         type: 'gradient',
         gradient: {
           shade: 'light',
           type: 'horizontal',
           shadeIntensity: 0.5,
-          gradientToColors: ['#a5d6a7'], // Color verde claro
+          gradientToColors: ['#a5d6a7'],
           inverseColors: true,
           opacityFrom: 0.7,
           opacityTo: 0.3,
@@ -64,6 +78,12 @@ const Graflineal = () => {
     yaxis: {
       min: 0,
       max: 200,
+      axisBorder: {
+        show: true,
+        color: '#78909C',
+        offsetX: 0,
+        offsetY: 0,
+      },
     },
     legend: {
       show: false,
@@ -73,13 +93,13 @@ const Graflineal = () => {
         {
           y: 40,
           y2: 0,
-          fillColor: '	#ff0000',
+          fillColor: '#ff0000',
           opacity: 0.3,
         },
         {
           y: 50,
           y2: 40,
-          fillColor: '	#ffff00',
+          fillColor: '#ffff00',
           opacity: 0.5,
         },
         {
@@ -91,21 +111,21 @@ const Graflineal = () => {
         {
           y: 95,
           y2: 80,
-          fillColor: '	#ffff00',
+          fillColor: '#ffff00',
           opacity: 0.5,
         },
         {
           y: 120,
           y2: 95,
-          fillColor: '	#ff8000',
+          fillColor: '#ff8000',
           opacity: 0.5,
         },
         {
           y: 200,
           y2: 120,
-          fillColor: '	#ff0000',
+          fillColor: '#ff0000',
           opacity: 0.3,
-        }
+        },
       ],
     },
   };

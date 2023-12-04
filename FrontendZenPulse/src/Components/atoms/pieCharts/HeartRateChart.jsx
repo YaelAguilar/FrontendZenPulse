@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 
-const ws = new WebSocket('ws://192.168.252.191:3001/Pulse_Sensor');
+const ws = new WebSocket('ws://localhost:3001/Pulse_Sensor');
 
 const ROOT_PATH = 'https://echarts.apache.org/examples';
 const animationDuration = 1000;
@@ -21,29 +21,35 @@ function HeartRateChart() {
     const chartDom = chartRef.current;
     const myChart = echarts.init(chartDom);
 
-    function updateChart(newBpm) {
-      setBpm(newBpm);
-
-      const option = {
-        series: [
-          {
-            data: [1, newBpm],
-            animationEasing: animationEasingUpdate,
-            animationDurationUpdate,
-            style: {
-              fill: 'rgba(255, 0, 0, 1)',
-              shadowBlur: 0,
-            }
-          }
-        ]
-      };
-
-      myChart.setOption(option);
-    }
-
     ws.onmessage = (event) => {
-      const newBpm = parseInt(event.data, 10);
-      updateChart(newBpm);
+      try {
+        const data = JSON.parse(event.data);
+        const newBpm = parseInt(data.Pulse_Sensor, 10);
+    
+        if (!isNaN(newBpm)) {
+          setBpm(newBpm);
+    
+          const option = {
+            series: [
+              {
+                data: [1, newBpm],
+                animationEasing: animationEasingUpdate,
+                animationDurationUpdate,
+                style: {
+                  fill: 'rgba(255, 0, 0, 1)',
+                  shadowBlur: 0,
+                }
+              }
+            ]
+          };
+    
+          myChart.setOption(option);
+        } else {
+          console.warn('Received invalid BPM value:', event.data);
+        }
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
     };
 
     function renderItem(params, api) {

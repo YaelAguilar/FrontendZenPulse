@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
 
-const ws = new WebSocket('ws://192.168.252.191:3001/MAX30102');
+const ws = new WebSocket('ws://localhost:3001/MAX30102');
 
 const ROOT_PATH = 'https://echarts.apache.org/examples';
 const animationDuration = 1000;
@@ -31,7 +31,7 @@ function OxygenationChart() {
             animationEasing: animationEasingUpdate,
             animationDurationUpdate,
             style: {
-              color: 'rgba(0, 136, 34, 1)', 
+              color: 'rgba(0, 136, 34, 1)',
               fill: 'rgba(0, 136, 34, 1)',
             }
           }
@@ -42,8 +42,18 @@ function OxygenationChart() {
     }
 
     ws.onmessage = (event) => {
-      const newOxygenation = parseInt(event.data, 10);
-      updateChart(newOxygenation);
+      try {
+        const data = JSON.parse(event.data);
+        const newOxygenation = parseInt(data.MAX30102, 10);
+
+        if (!isNaN(newOxygenation)) {
+          updateChart(newOxygenation);
+        } else {
+          console.warn('Received invalid Oxygenation value:', event.data);
+        }
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
     };
 
     function renderItem(params, api) {
